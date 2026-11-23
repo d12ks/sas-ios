@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>startURL</key>
+  <string>https://d12ks.github.io/sas-ios/</string>
+  <key>quitURL</key>
+  <string>https://d12ks.github.io/sas-ios/keluar-seb.html</string>
+  <key>quitURLConfirm</key>
+  <false/>
+  <key>allowQuit</key>
+  <true/>
+  <key>hashedQuitPassword</key>
+  <string></string>
+  <key>sendBrowserExamKey</key>
+  <false/>
+  <key>showTaskBar</key>
+  <false/>
+  <key>allowBrowsingBackForward</key>
+  <false/>
+  <key>newBrowserWindowByLinkPolicy</key>
+  <integer>2</integer>
+  <key>allowSpellCheck</key>
+  <false/>
+  <key>allowDictation</key>
+  <false/>
+  <key>mobileAllowSingleAppMode</key>
+  <true/>
+  <key>mobileEnableGuidedAccess</key>
+  <false/>
+  <key>mobilePreventAutoLock</key>
+  <true/>
+  <key>mobileShowMenu</key>
+  <false/>
+</dict>
+</plist>
