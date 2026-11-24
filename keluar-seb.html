@@ -82,26 +82,27 @@
       border: none;
       cursor: pointer;
     }
-    .btn-secondary {
-      margin-top: 10px;
-      background: #f1f5f9;
-      color: #334155;
-    }
   </style>
+  <script>
+    // Jika halaman ini dibuka dengan query string (?status=...), bersihkan query string
+    // agar URL persis menjadi https://d12ks.github.io/sas-ios/keluar-seb.html dan langsung memicu Quit Link SEB iOS
+    if (window.location.search) {
+      window.location.replace(window.location.origin + window.location.pathname);
+    }
+  </script>
 </head>
 <body>
   <div class="card">
     <div class="icon-box">✓</div>
-    <h1>Sesi Ujian Telah Ditutup</h1>
+    <h1>Sesi Ujian Telah Selesai</h1>
     <p>
-      Anda telah keluar dari sesi ujian <b>Sistem Asesmen Sekolah (SAS) SMKN 1 Mondokan</b>.
+      Anda telah menyelesaikan sesi ujian <b>Sistem Asesmen Sekolah (SAS) SMKN 1 Mondokan</b>.
     </p>
     <div class="info-box">
-      <b>Bagi Pengguna iPhone / iPad (Safe Exam Browser):</b><br />
-      Jika aplikasi belum tertutup otomatis, tekan ikon <b>Keluar / Quit Session</b> di pojok kanan bawah layar Safe Exam Browser, atau masuk kembali ke halaman login di bawah ini.
+      <b>Melepas Kunci Layar (Single App Mode):</b><br />
+      Safe Exam Browser sedang melepas kunci layar iPhone Anda secara otomatis. Jika muncul konfirmasi keluar, ketuk <b>Quit / Keluar</b>.
     </div>
-    <a href="seb://quit" class="btn">Tutup Safe Exam Browser (Quit SEB)</a>
-    <a href="./index.html" class="btn btn-secondary">Kembali ke Halaman Login</a>
+    <a href="./index.html" class="btn">Kembali ke Halaman Login</a>
   </div>
 </body>
 </html>
