@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>originatorVersion</key>
+  <string>SEB_iOS_3.3.2</string>
+  <key>sebConfigPurpose</key>
+  <integer>0</integer>
   <key>startURL</key>
   <string>https://d12ks.github.io/sas-ios/</string>
   <key>quitURL</key>
@@ -11,7 +15,7 @@
   <key>allowQuit</key>
   <true/>
   <key>hashedQuitPassword</key>
-  <string></string>
+  <string>aae1c73e5a0550c5b14999e7d16e2adf1076c2f5219a74441cafedca98e3d089</string>
   <key>sendBrowserExamKey</key>
   <false/>
   <key>showTaskBar</key>
@@ -24,8 +28,10 @@
   <false/>
   <key>allowDictation</key>
   <false/>
-  <key>mobileAllowSingleAppMode</key>
+  <key>mobileEnableASAM</key>
   <true/>
+  <key>mobileAllowSingleAppMode</key>
+  <false/>
   <key>mobileEnableGuidedAccess</key>
   <false/>
   <key>mobilePreventAutoLock</key>
