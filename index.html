@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
+    <title>Sistem Asesmen Sekolah</title>
+    <meta name="description" content="Aplikasi ujian mode kiosk dengan integrasi Google Sheets." />
+    <meta property="og:title" content="Sistem Asesmen Sekolah" />
+    <meta property="og:description" content="Aplikasi ujian mode kiosk dengan integrasi Google Sheets." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://script.google.com" crossorigin />
+    <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin />
+    <link rel="dns-prefetch" href="https://script.google.com" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              primary: '#02787c', // Teal Utama sesuai gambar terlampir
+              secondary: '#014f52', // Dark Teal
+              accent: '#f59e0b', // Amber 500
+              blue: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                200: '#99f6e4',
+                300: '#5eead4',
+                400: '#2dd4bf',
+                500: '#04969b',
+                600: '#03868b',
+                700: '#02787c',
+                800: '#016165',
+                900: '#014f52',
+                950: '#003537',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        /* GLOBAL RESET FOR KIOSK FULLSCREEN FEEL */
+        html, body, #root {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Hide scrollbar for Kiosk feel */
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* Custom Scrollbar untuk elemen yang boleh di-scroll */
+        .scrollable-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: rgba(148, 163, 184, 0.45);
+            border-radius: 4px;
+        }
+
+        /* Disable text selection */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Cross-WebView Animation & Tailwind v4 Compat Utilities */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.03);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Modern Boot Loader Animations */
+        @keyframes orbitSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes orbitSpinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes shimmerBar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(220%); }
+        }
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-4px) scale(1.02); }
+        }
+
+        .animate-orbit {
+            animation: orbitSpin 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+        }
+
+        .animate-orbit-reverse {
+            animation: orbitSpinReverse 3.2s linear infinite;
+        }
+
+        .animate-shimmer-bar {
+            animation: shimmerBar 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .animate-float-pulse {
+            animation: floatPulse 3s ease-in-out infinite;
+        }
+
+        .shadow-xs {
+            box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+        }
+        .shadow-2xs {
+            box-shadow: 0 1px 1px 0 rgba(15, 23, 42, 0.04);
+        }
+        .rounded-xs {
+            border-radius: 2px;
+        }
+        .backdrop-blur-xs {
+            -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+        }
+
+        /* High-Impact Violation Modal Animation */
+        @keyframes violationPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.85) translateY(20px);
+            }
+            65% {
+                opacity: 1;
+                transform: scale(1.02) translateY(-2px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .animate-violation-pop {
+            animation: violationPop 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes hazardPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6), 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(220, 38, 38, 0), 0 25px 50px -12px rgba(0, 0, 0, 0.95);
+            }
+        }
+
+        .animate-hazard-pulse {
+            animation: hazardPulse 2.2s infinite;
+        }
+    </style>
+
+  <script type="importmap">
+{
+  "imports": {
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="./assets/index-BZl44wjw.js"></script>
+</head>
+  <body class="bg-slate-50 text-slate-900 no-select antialiased">
+    <div id="root">
+      <!-- INSTANT BOOT SPLASH (TAMPIL 0ms SEBELUM JS/TAILWIND SELESAI DIUNDUH DI IOS SEB) -->
+      <div style="height:100%;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#02787c;color:#ffffff;padding:24px;text-align:center;box-sizing:border-box;">
+        <div style="position:relative;width:84px;height:84px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <div style="position:absolute;inset:0;border-radius:9999px;border:3px solid rgba(255,255,255,0.22);border-top-color:#ffffff;border-right-color:#fcd34d;animation:orbitSpin 1.4s linear infinite;"></div>
+          <div style="position:absolute;inset:8px;border-radius:9999px;border:2px solid rgba(255,255,255,0.18);border-bottom-color:#fcd34d;border-left-color:#ffffff;animation:orbitSpinReverse 2.2s linear infinite;"></div>
+          <div style="width:48px;height:48px;border-radius:14px;background:#ffffff;color:#02787c;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;box-shadow:0 8px 20px rgba(0,0,0,0.18);">SAS</div>
+        </div>
+        <div style="font-size:17px;font-weight:800;letter-spacing:-0.01em;">SMKN 1 MONDOKAN</div>
+        <div style="font-size:12px;opacity:0.9;margin-top:4px;">Sistem Asesmen Sekolah · Memuat Aplikasi...</div>
+        <div style="width:180px;height:6px;background:#016165;border-radius:9999px;overflow:hidden;margin-top:18px;border:1px solid rgba(255,255,255,0.15);">
+          <div style="width:50%;height:100%;background:linear-gradient(90deg,transparent,#fcd34d,transparent);border-radius:9999px;animation:shimmerBar 1.4s ease-in-out infinite;"></div>
+        </div>
+        <div style="font-size:11px;opacity:0.85;margin-top:12px;">Mohon tunggu sebentar...</div>
+      </div>
+    </div>
+  </body>
+</html>
